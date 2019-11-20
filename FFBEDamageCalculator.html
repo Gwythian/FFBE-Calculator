@@ -1,0 +1,273 @@
+<html>
+    <head>
+        <title>FFBE Damage Calculator</title>
+        <script>
+            function calculateAttack(unitAttack, buffs, debuffs, nonbreakableATK) {
+                var unitAttackCalculation = 0
+                if (buffs != null || !isNaN(buffs)) {
+                    if (buffs != 0) {
+                        unitAttackCalculation = unitAttack + (unitAttack * (buffs/100))
+                    } else {
+                        unitAttackCalculation = unitAttack;
+                    }
+                    console.log(`After buffs: ${unitAttackCalculation}`)
+                } else {
+                    throw("Buff is not a number.")
+                }
+
+                if (debuffs != null || !isNan(debuffs)){
+                    if (debuffs !=0) {
+                        unitAttackCalculation = unitAttackCalculation - (unitAttack * (debuffs/100))
+                    }
+                    console.log(`After debuffs: ${unitAttackCalculation}`)
+                } else {
+                    throw ("Debuff is not a number.")
+                }
+
+                if (nonbreakableATK != null || !isNan(nonbreakableATK)){
+                    if (nonbreakableATK !=0) {
+                        unitAttackCalculation = unitAttackCalculation + nonbreakableATK
+                    }
+                    console.log(`After adding back unbrekable attack: ${unitAttackCalculation}`)
+                } else {
+                    throw ("Nonbreakable attack is not a number.")
+                }
+
+                return unitAttackCalculation
+            }
+
+            function calculateDefense(targetDefense, targetDefenseBuffs, targetDefenseDebuffs, ignoreArmor) {
+                var baseDefense
+                var targetDefenseCalculation = 0;
+
+                if (targetDefense != null && !isNaN(targetDefense)){
+                    if (targetDefense != 0) {
+                        baseDefense = targetDefense
+                    } else {
+                        throw("Cannot use a base defense of 0.")
+                    }
+                }
+
+                if (targetDefenseDebuffs != null && !isNaN(targetDefenseDebuffs) && targetDefenseBuffs != null && !isNaN(targetDefenseBuffs)) {
+                    targetDefenseCalculation = baseDefense * ((100-(targetDefenseDebuffs - targetDefenseBuffs)) / 100) * ((100 - ignoreArmor)/100)
+                }
+
+                return targetDefenseCalculation
+            }
+
+            function levelCorrection(attackerLevel) {
+                var levelCorrection = 1 + (attackerLevel / 100)
+
+                return levelCorrection
+            }
+
+            function collectData() {
+                console.log("Collecting Data...")
+                var unitAttack
+                var buffs
+                var debuffs
+                var nonbreakableATK
+                var abilityModifier
+                var ignoreArmor
+                var attackerLevel
+                var targetDefense
+                var targetDefenseBuffs
+                var targetDefenseDebuffs
+                var totalAtk
+                var totalDefense
+                var levelCorrectionResult
+
+                if (isNaN(document.getElementById("ATK").value) || document.getElementById("ATK").value.length < 1) {
+                    throw("Boss attack must be an integer.")
+                } else {
+                    unitAttack = parseInt(document.getElementById("ATK").value)
+                }
+
+                if (isNaN(document.getElementById("nonbreakableATK").value) || document.getElementById("nonbreakableATK").value.length < 1) {
+                    throw("Boss nonbreakable attack must be an integer.")
+                } else {
+                    nonbreakableATK = parseInt(document.getElementById("nonbreakableATK").value)
+                }
+                
+                if (isNaN(document.getElementById("buffs").value) || document.getElementById("buffs").value.length < 1) {
+                    throw("Attack buffs must be an integer.")
+                } else {
+                    buffs = parseInt(document.getElementById("buffs").value)
+                }
+
+                if (isNaN(document.getElementById("debuffs").value) || document.getElementById("debuffs").value.length < 1) {
+                    throw("Attack debuffs must be an integer.")
+                } else {
+                    debuffs = parseInt(document.getElementById("debuffs").value)
+                }
+
+                if (isNaN(document.getElementById("abilityModifier").value) || document.getElementById("abilityModifier").value.length < 1) {
+                    throw("Ability modifier must be an integer.")
+                } else {
+                    abilityModifier = parseInt(document.getElementById("abilityModifier").value)
+                }
+
+                if (isNaN(document.getElementById("ignoreArmor").value) || document.getElementById("ignoreArmor").value.length < 1) {
+                    throw("Ignore armor must be an integer.")
+                } else {
+                    ignoreArmor = parseInt(document.getElementById("ignoreArmor").value)
+                }
+
+                if (isNaN(document.getElementById("attackerLevel").value) || document.getElementById("attackerLevel").value.length < 1) {
+                    throw("Attacker level must be an integer.")
+                } else {
+                    attackerLevel = parseInt(document.getElementById("attackerLevel").value)
+                }
+
+                if (isNaN(document.getElementById("targetDefense").value) || document.getElementById("targetDefense").value.length < 1) {
+                    throw("Target defense must be an integer.")
+                } else {
+                    targetDefense = parseInt(document.getElementById("targetDefense").value)
+                }
+
+                if (isNaN(document.getElementById("targetDefenseBuffs").value) || document.getElementById("targetDefenseBuffs").value.length < 1) {
+                    throw("Target defense buffs must be an integer.")
+                } else {
+                    targetDefenseBuffs = parseInt(document.getElementById("targetDefenseBuffs").value)
+                }
+
+                if (isNaN(document.getElementById("targetDefenseDebuffs").value) || document.getElementById("targetDefenseDebuffs").value.length < 1) {
+                    throw("Target defense debuffs must be an integer.")
+                } else {
+                    targetDefenseDebuffs = parseInt(document.getElementById("targetDefenseDebuffs").value)
+                }
+
+                console.log(unitAttack)
+                console.log(nonbreakableATK)
+                console.log(buffs)
+                console.log(debuffs)
+                console.log(abilityModifier)
+                console.log(attackerLevel)
+                console.log(targetDefense)
+                console.log(targetDefenseBuffs)
+                console.log(targetDefenseDebuffs)
+                console.log(abilityModifier)
+                console.log(attackerLevel)
+
+                if (unitAttack != null && nonbreakableATK != null && buffs != null && debuffs != null) {
+                    console.log("Calculating ATK...")
+                    totalAtk = calculateAttack(unitAttack, buffs, debuffs, nonbreakableATK)
+                }
+
+                console.log(totalAtk)
+
+                if (targetDefense != null && targetDefenseBuffs != null && targetDefenseDebuffs != null && ignoreArmor != null) {
+                    console.log("Calculating DEF...")
+                    totalDefense = calculateDefense(targetDefense, targetDefenseBuffs, targetDefenseDebuffs, ignoreArmor)
+                }
+
+                console.log(totalDefense)
+
+                if (attackerLevel !=null) {
+                    levelCorrectionResult = levelCorrection(attackerLevel)
+                }
+
+                console.log(levelCorrectionResult)
+
+                physicalDamageCalculation(totalAtk, totalDefense, abilityModifier, levelCorrectionResult, 1, 1)
+            }
+
+            function physicalDamageCalculation(unitAttack, enemyDefense, modifier, levelCorrection, weaponVariance, finalVariance) {
+                var highestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance
+                var averageDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.925
+                var lowestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85
+
+                console.log(`Highest Damage: ${highestDamage}`)
+                console.log(`Average Damage: ${averageDamage}`)
+                console.log(`Lowest Damage: ${lowestDamage}`)
+            }
+
+            function populateSelection() {
+                console.log("Selected Boss " + document.getElementById("dropdown").value)
+                var selection = document.getElementById("dropdown").value
+
+                if (selection == "Alpherg") {
+                    document.getElementById("ATK").value = "500"
+                    document.getElementById("nonbreakableATK").value = "250"
+                    document.getElementById("attackerLevel").value = "99"
+                }
+            }
+        </script>
+        <style>
+            layout {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .horizontal {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .horizontal > label {
+                padding-right: 20px;
+                padding-bottom: 20px;
+                width: 200px;
+            }
+
+            .horizontal > input, .horizontal > select {
+                height: 25px;
+                text-align: right;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="layout">
+            <div class="horizontal">
+                <label for="dropdown">Bosses</label>
+                <select id="dropdown" onchange="populateSelection()">
+                    <option value="Select Boss">Select A Boss</option>
+                    <option value="Alpherg">Alpherg</option>
+                </select>
+            </div>
+            <div class="horizontal">
+                <label for="ATK">Attacker ATK before buffs: </label>
+                <input id="ATK" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="buffs">Attacker ATK buff %:</label>
+                <input id="buffs" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="debuffs">Attacker ATK debuff %:</label>
+                <input id="debuffs" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="nonbreakableATK">Attacker Not breakable ATK amount:</label>
+                <input id="nonbreakableATK" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="abilityModifier">Attacker ability modifier:</label>
+                <input id="abilityModifier" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="ignoreArmor">Ability ignore armor %:</label>
+                <input id="ignoreArmor" value="0"/>
+            </div>
+            <div class="horizontal">
+                    <label for="attackerLevel">Attacker level:</label>
+                    <input id="attackerLevel" value="0"/>
+                </div>
+            <div class="horizontal">
+                <label for="targetDefense">Target Defense:</label>
+                <input id="targetDefense" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="targetDefenseBuffs">Target Defense buff %:</label>
+                <input id="targetDefenseBuffs" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="targetDefenseDebuffs">Target Defense debuff %:</label>
+                <input id="targetDefenseDebuffs" value="0"/>
+            </div>
+            <div id="submit">
+                <button id="submit_button" onClick="collectData()">Submit</button>
+            </div>
+        </div>
+    </body>
+</html>
