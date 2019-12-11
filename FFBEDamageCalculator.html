@@ -28,7 +28,7 @@
                     if (nonbreakableATK !=0) {
                         unitAttackCalculation = unitAttackCalculation + nonbreakableATK
                     }
-                    console.log(`After adding back unbrekable attack: ${unitAttackCalculation}`)
+                    console.log(`After adding back unbreakable attack: ${unitAttackCalculation}`)
                 } else {
                     throw ("Nonbreakable attack is not a number.")
                 }
@@ -76,6 +76,11 @@
                 var totalAtk
                 var totalDefense
                 var levelCorrectionResult
+                var physicalMitigation
+                var magicalMitigation
+                var generalMitigation
+                var damageType
+                var defend
 
                 if (isNaN(document.getElementById("ATK").value) || document.getElementById("ATK").value.length < 1) {
                     throw("Boss attack must be an integer.")
@@ -137,17 +142,58 @@
                     targetDefenseDebuffs = parseInt(document.getElementById("targetDefenseDebuffs").value)
                 }
 
-                console.log(unitAttack)
-                console.log(nonbreakableATK)
-                console.log(buffs)
-                console.log(debuffs)
-                console.log(abilityModifier)
-                console.log(attackerLevel)
-                console.log(targetDefense)
-                console.log(targetDefenseBuffs)
-                console.log(targetDefenseDebuffs)
-                console.log(abilityModifier)
-                console.log(attackerLevel)
+                if (isNaN(document.getElementById("physicalMitigation").value) || document.getElementById("physicalMitigation").value.length < 1) {
+                    throw("Physical mitigation must be an integer.")
+                } else {
+                    physicalMitigation = parseInt(document.getElementById("physicalMitigation").value)
+                }
+
+                if (isNaN(document.getElementById("magicalMitigation").value) || document.getElementById("magicalMitigation").value.length < 1) {
+                    throw("Magical mitigation must be an integer.")
+                } else {
+                    magicalMitigation = parseInt(document.getElementById("magicalMitigation").value)
+                }
+
+                if (isNaN(document.getElementById("generalMitigation").value) || document.getElementById("generalMitigation").value.length < 1) {
+                    throw("General mitigation must be an integer.")
+                } else {
+                    generalMitigation = parseInt(document.getElementById("generalMitigation").value)
+                }
+
+                console.log("Selected Damage Type " + document.getElementById("damageDropdown").value)
+                var selection = document.getElementById("damageDropdown").value
+
+                if (selection == "selectDamageType") {
+                    throw("Please select a damage type.")
+                } else if (selection == "physicalDamage") {
+                    damageType = selection
+                } else if (selection == "magicalDamage") {
+                    damageType = selection
+                } else if (selection == "fixedDamage") {
+                    damageType = selection
+                }
+
+                if (document.getElementById("defendCheckbox").checked) {
+                    defend = true
+                } else {
+                    defend = false
+                }
+                console.log("Defending (True/False): " + defend)
+
+                // console.log(unitAttack)
+                // console.log(nonbreakableATK)
+                // console.log(buffs)
+                // console.log(debuffs)
+                // console.log(abilityModifier)
+                // console.log(attackerLevel)
+                // console.log(targetDefense)
+                // console.log(targetDefenseBuffs)
+                // console.log(targetDefenseDebuffs)
+                // console.log(abilityModifier)
+                // console.log(attackerLevel)
+                // console.log(physicalMitigation)
+                // console.log(magicalMitigation)
+                // console.log(generalMitigation)
 
                 if (unitAttack != null && nonbreakableATK != null && buffs != null && debuffs != null) {
                     console.log("Calculating ATK...")
@@ -169,13 +215,45 @@
 
                 console.log(levelCorrectionResult)
 
-                physicalDamageCalculation(totalAtk, totalDefense, abilityModifier, levelCorrectionResult, 1, 1)
+                physicalDamageCalculation(totalAtk, totalDefense, abilityModifier, levelCorrectionResult, 1, 1, physicalMitigation, magicalMitigation, generalMitigation, damageType, defend)
             }
 
-            function physicalDamageCalculation(unitAttack, enemyDefense, modifier, levelCorrection, weaponVariance, finalVariance) {
-                var highestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance
-                var averageDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.925
-                var lowestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85
+            function physicalDamageCalculation(unitAttack, enemyDefense, modifier, levelCorrection, weaponVariance, finalVariance, physicalMitigation, magicalMitigation, generalMitigation, damageType, defend) {
+                var totalMitigation
+                
+                if (damageType == "physicalDamage" || damageType == "magicalDamage") {
+                    console.log(`Calculating damage for combo mitigations.`)
+                    if (generalMitigation != null) {
+                        if (physicalMitigation > 0) {
+                            totalMitigation = (generalMitigation * physicalMitigation) / 100
+                        } else if (magicalMitigation != null) {
+                            totalMitigation = (generalMitigation * magicalMitigation) / 100
+                        }
+                    } else {
+                        if (physicalMitigation > 0) {
+                            totalMitigation = physicalMitigation / 100
+                        } else if (magicalMitigation != null) {
+                            totalMitigation = magicalMitigation / 100
+                        }
+                    }
+                } else if (damageType == "fixedDamage") {
+                    console.log("Using general mitigation for fixed damage.")
+                    totalMitigation = 1 - (generalMitigation / 100)
+                }
+                
+                if (totalMitigation == 0) {
+                    totalMitigation = 1;
+                }
+
+                if (defend == true) {
+                    var highestDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance * totalMitigation) * 0.5
+                    var averageDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.925 * totalMitigation) * 0.5
+                    var lowestDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85 * totalMitigation) * 0.5
+                } else {
+                    var highestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance * totalMitigation
+                    var averageDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.925 * totalMitigation
+                    var lowestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85 * totalMitigation   
+                }
 
                 console.log(`Highest Damage: ${highestDamage}`)
                 console.log(`Average Damage: ${averageDamage}`)
@@ -190,6 +268,12 @@
                     document.getElementById("ATK").value = "500"
                     document.getElementById("nonbreakableATK").value = "250"
                     document.getElementById("attackerLevel").value = "99"
+                } else if (selection == "MachinaOfDestructionScorn") {
+                    document.getElementById("ATK").value = "1500"
+                    document.getElementById("debuffs").value = "70"
+                    document.getElementById("nonbreakableATK").value = "900"
+                    document.getElementById("attackerLevel").value = "99"
+                    document.getElementById("abilityModifier").value = "2.6"
                 }
             }
         </script>
@@ -223,6 +307,7 @@
                 <select id="dropdown" onchange="populateSelection()">
                     <option value="Select Boss">Select A Boss</option>
                     <option value="Alpherg">Alpherg</option>
+                    <option value="MachinaOfDestructionScorn">Machina of Destruction (Scorn)</option>
                 </select>
             </div>
             <div class="horizontal">
@@ -264,6 +349,31 @@
             <div class="horizontal">
                 <label for="targetDefenseDebuffs">Target Defense debuff %:</label>
                 <input id="targetDefenseDebuffs" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="physicalMitigation">Physical Mitigation:</label>
+                <input id="physicalMitigation" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="magicalMitigation">Magical Mitigation:</label>
+                <input id="magicalMitigation" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="generalMitigation">General Mitigation:</label>
+                <input id="generalMitigation" value="0"/>
+            </div>
+            <div class="horizontal">
+                <label for="damageDropdown">Damage Type</label>
+                <select id="damageDropdown" onchange="populateSelection()">
+                    <option value="selectDamageType">Select damage type</option>
+                    <option value="physicalDamage">Physical Damage</option>
+                    <option value="magicalDamage">Magical Damage</option>
+                    <option value="fixedDamage">Fixed Damage</option>
+                </select>
+            </div>
+            <div class="horizontal">
+                <label for="defend">Defend</label>
+                <input type="checkbox" name="defendCheckbox" id="defendCheckbox">
             </div>
             <div id="submit">
                 <button id="submit_button" onClick="collectData()">Submit</button>
