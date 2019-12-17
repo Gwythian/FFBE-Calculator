@@ -51,6 +51,8 @@
                 if (targetDefenseDebuffs != null && !isNaN(targetDefenseDebuffs) && targetDefenseBuffs != null && !isNaN(targetDefenseBuffs)) {
                     targetDefenseCalculation = baseDefense * ((100-(targetDefenseDebuffs - targetDefenseBuffs)) / 100) * ((100 - ignoreArmor)/100)
                 }
+                
+                console.log(`Enemy Target Defense: ${targetDefenseCalculation}`)
 
                 return targetDefenseCalculation
             }
@@ -246,11 +248,11 @@
                 }
 
                 if (defend == true) {
-                    var highestDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance * totalMitigation) * 0.5
+                    var highestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance * totalMitigation * 0.5
                     var averageDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.925 * totalMitigation) * 0.5
                     var lowestDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85 * totalMitigation) * 0.5
                 } else {
-                    var highestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance * totalMitigation
+                    var highestDamage = (((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * finalVariance) * totalMitigation
                     var averageDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.925 * totalMitigation
                     var lowestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85 * totalMitigation   
                 }
