@@ -63,8 +63,15 @@
                 return levelCorrection
             }
 
-            function collectData() {
-                console.log("Collecting Data...")
+            function collectData() {                
+                if (!document.getElementById("outputConsole")) {
+                    createOutput()
+                } else {
+                    clearConsole()
+                }
+                
+                outputToConsole("Collecting Data...")
+                
                 var unitAttack
                 var buffs
                 var debuffs
@@ -83,80 +90,109 @@
                 var generalMitigation
                 var damageType
                 var defend
+                var fireElement
+                var iceElement
+                var lightningElement
+                var waterElement
+                var windElement
+                var earthElement
+                var lightElement
+                var darkElement
+                var fireResistance
+                var iceResistance
+                var lightningResistance
+                var waterResistance
+                var windResistance
+                var earthResistance
+                var lightResistance
+                var darkResistance
 
                 if (isNaN(document.getElementById("ATK").value) || document.getElementById("ATK").value.length < 1) {
+                    outputToConsole("Boss attack must be an integer.")
                     throw("Boss attack must be an integer.")
                 } else {
                     unitAttack = parseInt(document.getElementById("ATK").value)
                 }
 
                 if (isNaN(document.getElementById("nonbreakableATK").value) || document.getElementById("nonbreakableATK").value.length < 1) {
+                    outputToConsole("Boss nonbrekable attack must be an integer")
                     throw("Boss nonbreakable attack must be an integer.")
                 } else {
                     nonbreakableATK = parseInt(document.getElementById("nonbreakableATK").value)
                 }
                 
                 if (isNaN(document.getElementById("buffs").value) || document.getElementById("buffs").value.length < 1) {
+                    outputToConsole("Attack buffs must be an integer.")
                     throw("Attack buffs must be an integer.")
                 } else {
                     buffs = parseInt(document.getElementById("buffs").value)
                 }
 
                 if (isNaN(document.getElementById("debuffs").value) || document.getElementById("debuffs").value.length < 1) {
+                    outputToConsole("Attack debuffs must be an integer.")
                     throw("Attack debuffs must be an integer.")
                 } else {
                     debuffs = parseInt(document.getElementById("debuffs").value)
                 }
 
                 if (isNaN(document.getElementById("abilityModifier").value) || document.getElementById("abilityModifier").value.length < 1) {
+                    outputToConsole("Ability modifier must be an integer.")
                     throw("Ability modifier must be an integer.")
                 } else {
                     abilityModifier = parseInt(document.getElementById("abilityModifier").value)
                 }
 
                 if (isNaN(document.getElementById("ignoreArmor").value) || document.getElementById("ignoreArmor").value.length < 1) {
+                    outputToConsole("Ignore armor must be an integer.")
                     throw("Ignore armor must be an integer.")
                 } else {
                     ignoreArmor = parseInt(document.getElementById("ignoreArmor").value)
                 }
 
                 if (isNaN(document.getElementById("attackerLevel").value) || document.getElementById("attackerLevel").value.length < 1) {
+                    outputToConsole("Attacker level must be an integer.")
                     throw("Attacker level must be an integer.")
                 } else {
                     attackerLevel = parseInt(document.getElementById("attackerLevel").value)
                 }
 
                 if (isNaN(document.getElementById("targetDefense").value) || document.getElementById("targetDefense").value.length < 1) {
+                    outputToConsole("Target defense must be an integer.")
                     throw("Target defense must be an integer.")
                 } else {
                     targetDefense = parseInt(document.getElementById("targetDefense").value)
                 }
 
                 if (isNaN(document.getElementById("targetDefenseBuffs").value) || document.getElementById("targetDefenseBuffs").value.length < 1) {
+                    outputToConsole("Target defense buffs must be an integer.")
                     throw("Target defense buffs must be an integer.")
                 } else {
                     targetDefenseBuffs = parseInt(document.getElementById("targetDefenseBuffs").value)
                 }
 
                 if (isNaN(document.getElementById("targetDefenseDebuffs").value) || document.getElementById("targetDefenseDebuffs").value.length < 1) {
+                    outputToConsole("Target defense debuffs must be an integer.")
                     throw("Target defense debuffs must be an integer.")
                 } else {
                     targetDefenseDebuffs = parseInt(document.getElementById("targetDefenseDebuffs").value)
                 }
 
                 if (isNaN(document.getElementById("physicalMitigation").value) || document.getElementById("physicalMitigation").value.length < 1) {
+                    outputToConsole("Physical mitigation must be an integer.")
                     throw("Physical mitigation must be an integer.")
                 } else {
                     physicalMitigation = parseInt(document.getElementById("physicalMitigation").value)
                 }
 
                 if (isNaN(document.getElementById("magicalMitigation").value) || document.getElementById("magicalMitigation").value.length < 1) {
+                    outputToConsole("Magical mitigation must be an integer.")
                     throw("Magical mitigation must be an integer.")
                 } else {
                     magicalMitigation = parseInt(document.getElementById("magicalMitigation").value)
                 }
 
                 if (isNaN(document.getElementById("generalMitigation").value) || document.getElementById("generalMitigation").value.length < 1) {
+                    outputToConsole("outputToConsole")
                     throw("General mitigation must be an integer.")
                 } else {
                     generalMitigation = parseInt(document.getElementById("generalMitigation").value)
@@ -166,6 +202,7 @@
                 var selection = document.getElementById("damageDropdown").value
 
                 if (selection == "selectDamageType") {
+                    outputToConsole("Please select a damage type.")
                     throw("Please select a damage type.")
                 } else if (selection == "physicalDamage") {
                     damageType = selection
@@ -180,42 +217,132 @@
                 } else {
                     defend = false
                 }
-                console.log("Defending (True/False): " + defend)
 
-                // console.log(unitAttack)
-                // console.log(nonbreakableATK)
-                // console.log(buffs)
-                // console.log(debuffs)
-                // console.log(abilityModifier)
-                // console.log(attackerLevel)
-                // console.log(targetDefense)
-                // console.log(targetDefenseBuffs)
-                // console.log(targetDefenseDebuffs)
-                // console.log(abilityModifier)
-                // console.log(attackerLevel)
-                // console.log(physicalMitigation)
-                // console.log(magicalMitigation)
-                // console.log(generalMitigation)
+                if (document.getElementById("fireElement").checked) {
+                    fireElement = true
+                } else {
+                    fireElement = false
+                }
+
+                if (document.getElementById("iceElement").checked) {
+                    iceElement = true
+                } else {
+                    iceElement = false
+                }
+
+                if (document.getElementById("lightningElement").checked) {
+                    lightningElement = true
+                } else {
+                    lightningElement = false
+                }
+
+                if (document.getElementById("waterElement").checked) {
+                    waterElement = true
+                } else {
+                    waterElement = false
+                }
+
+                if (document.getElementById("windElement").checked) {
+                    windElement = true
+                } else {
+                    windElement = false
+                }
+
+                if (document.getElementById("earthElement").checked) {
+                    earthElement = true
+                } else {
+                    earthElement = false
+                }
+
+                if (document.getElementById("lightElement").checked) {
+                    lightElement = true
+                } else {
+                    lightElement = false
+                }
+
+                if (document.getElementById("darkElement").checked) {
+                    darkElement = true
+                } else {
+                    darkElement = false
+                }
+
+                if (isNaN(document.getElementById("fireResitance").value) || document.getElementById("fireResistance").value.length < 1) {
+                    outputToConsole("Fire resistance must be an integer.")
+                    throw("Fire resistance must be an integer.")
+                } else {
+                    fireResistance = parseInt(document.getElementById("fireResistance").value)
+                }
+
+                if (isNaN(document.getElementById("iceResitance").value) || document.getElementById("iceResistance").value.length < 1) {
+                    outputToConsole("Ice resistance must be an integer.")
+                    throw("Ice resistance must be an integer.")
+                } else {
+                    iceResistance = parseInt(document.getElementById("iceResistance").value)
+                }
+
+                if (isNaN(document.getElementById("lightningResitance").value) || document.getElementById("lightningResistance").value.length < 1) {
+                    outputToConsole("Lightning resistance must be an integer.")
+                    throw("Lightning resistance must be an integer.")
+                } else {
+                    lightningResistance = parseInt(document.getElementById("lightningResistance").value)
+                }
+
+                if (isNaN(document.getElementById("waterResitance").value) || document.getElementById("waterResistance").value.length < 1) {
+                    outputToConsole("Water resistance must be an integer.")
+                    throw("Water resistance must be an integer.")
+                } else {
+                    waterResistance = parseInt(document.getElementById("waterResistance").value)
+                }
+
+                if (isNaN(document.getElementById("windResitance").value) || document.getElementById("windResistance").value.length < 1) {
+                    outputToConsole("Wind resistance must be an integer.")
+                    throw("Wind resistance must be an integer.")
+                } else {
+                    windResistance = parseInt(document.getElementById("windResistance").value)
+                }
+
+                if (isNaN(document.getElementById("earthResitance").value) || document.getElementById("earthResistance").value.length < 1) {
+                    outputToConsole("Earth resistance must be an integer.")
+                    throw("Earth resistance must be an integer.")
+                } else {
+                    earthResistance = parseInt(document.getElementById("earthResistance").value)
+                }
+
+                if (isNaN(document.getElementById("lightResitance").value) || document.getElementById("lightResistance").value.length < 1) {
+                    outputToConsole("Light resistance must be an integer.")
+                    throw("Light resistance must be an integer.")
+                } else {
+                    lightResistance = parseInt(document.getElementById("lightResistance").value)
+                }
+
+                if (isNaN(document.getElementById("darkResitance").value) || document.getElementById("darkResistance").value.length < 1) {
+                    outputToConsole("Dark resistance must be an integer.")
+                    throw("Dark resistance must be an integer.")
+                } else {
+                    darkResistance = parseInt(document.getElementById("darkResistance").value)
+                }
+
+                outputToConsole("Defending (True/False): " + defend)
 
                 if (unitAttack != null && nonbreakableATK != null && buffs != null && debuffs != null) {
-                    console.log("Calculating ATK...")
+                    outputToConsole("Calculating ATK...")
                     totalAtk = calculateAttack(unitAttack, buffs, debuffs, nonbreakableATK)
                 }
 
-                console.log(totalAtk)
+                outputToConsole(totalAtk)
 
                 if (targetDefense != null && targetDefenseBuffs != null && targetDefenseDebuffs != null && ignoreArmor != null) {
-                    console.log("Calculating DEF...")
+                    outputToConsole("Calculating DEF...")
                     totalDefense = calculateDefense(targetDefense, targetDefenseBuffs, targetDefenseDebuffs, ignoreArmor)
                 }
 
-                console.log(totalDefense)
+                outputToConsole(totalDefense)
 
                 if (attackerLevel !=null) {
                     levelCorrectionResult = levelCorrection(attackerLevel)
                 }
 
-                console.log(levelCorrectionResult)
+                outputToConsole(levelCorrectionResult)
 
                 physicalDamageCalculation(totalAtk, totalDefense, abilityModifier, levelCorrectionResult, 1, 1, physicalMitigation, magicalMitigation, generalMitigation, damageType, defend)
             }
@@ -224,7 +351,7 @@
                 var totalMitigation
                 
                 if (damageType == "physicalDamage" || damageType == "magicalDamage") {
-                    console.log(`Calculating damage for combo mitigations.`)
+                    outputToConsole(`Calculating damage for combo mitigations.`)
                     if (generalMitigation != null) {
                         if (physicalMitigation > 0) {
                             totalMitigation = (generalMitigation * physicalMitigation) / 100
@@ -239,7 +366,7 @@
                         }
                     }
                 } else if (damageType == "fixedDamage") {
-                    console.log("Using general mitigation for fixed damage.")
+                    outputToConsole("Using general mitigation for fixed damage.")
                     totalMitigation = 1 - (generalMitigation / 100)
                 }
                 
@@ -257,13 +384,13 @@
                     var lowestDamage = ((unitAttack * unitAttack) / enemyDefense) * modifier * levelCorrection * weaponVariance * 0.85 * totalMitigation   
                 }
 
-                console.log(`Highest Damage: ${highestDamage}`)
-                console.log(`Average Damage: ${averageDamage}`)
-                console.log(`Lowest Damage: ${lowestDamage}`)
+                outputToConsole(`Highest Damage: ${highestDamage}`)
+                outputToConsole(`Average Damage: ${averageDamage}`)
+                outputToConsole(`Lowest Damage: ${lowestDamage}`)
             }
 
             function populateSelection() {
-                console.log("Selected Boss " + document.getElementById("dropdown").value)
+                outputToConsole("Selected Boss " + document.getElementById("dropdown").value)
                 var selection = document.getElementById("dropdown").value
 
                 if (selection == "Alpherg") {
@@ -278,11 +405,61 @@
                     document.getElementById("abilityModifier").value = "2.6"
                 }
             }
+
+            function createOutput () {
+                var outputConsole = document.createElement("div")
+                outputConsole.id = "outputConsole"
+                document.getElementsByTagName("body")[0].appendChild(outputConsole)
+            }
+
+            function outputToConsole(outputLine) {
+                var outputLineContainer = document.createElement("p")
+                outputLineContainer.innerHTML = outputLine
+                document.getElementById("outputConsole").appendChild(outputLineContainer)
+            }
+
+            function clearConsole() {
+                document.getElementById("outputConsole").innerHTML = ""
+            }
+
+            async function parseJSON() {
+                var request = new XMLHttpRequest()
+                try {
+                    request.open("GET", "ScornOfTheFallenIceBird.json", false)
+                    request.send(null)
+                    var bossDetails = JSON.parse(request.responseText)
+                    console.log("Parsing Boss Data...")
+                    console.log(bossDetails)
+                } catch(error) {
+                    throw ("Parsing Failed..." + error)
+                }
+            }
+
         </script>
         <style>
+            body {
+                display: flex;
+                flex-direction: horizontal;
+            }
+            
             layout {
                 display: flex;
                 flex-direction: column;
+            }
+
+            #outputConsole {
+                width: 50%;
+                height: auto;
+                background:lightgrey;
+                border: solid;
+                border-color: grey;
+                margin-left: 50px;
+            }
+
+            #outputConsole > p {
+                font-family: Helvetica, Arial, sans-serif;
+                margin-left: 10px;
+                margin-bottom: 2px;
             }
 
             .horizontal {
@@ -300,9 +477,31 @@
                 height: 25px;
                 text-align: right;
             }
+
+            .baseline {
+                display: flex;
+                flex-direction: baseline;
+                margin-right: 10px;
+                margin-bottom: 10px;
+            }
+
+            .vertical > .baseline > .baseline > label {
+                margin-right: 5px;
+            }
+
+            .vertical > .baseline > .baseline > input {
+                width: 50px;
+                text-align: center;
+            }
+
+            .vertical {
+                display: flex;
+                flex-direction: column;
+            }
         </style>
+
     </head>
-    <body>
+    <body onload="parseJSON()">
         <div id="layout">
             <div class="horizontal">
                 <label for="dropdown">Bosses</label>
@@ -376,6 +575,77 @@
             <div class="horizontal">
                 <label for="defend">Defend</label>
                 <input type="checkbox" name="defendCheckbox" id="defendCheckbox">
+            </div>
+            <div class="horizontal">
+                <div class="baseline">
+                    <label for="fireElement">Fire</label>
+                    <input type="checkbox" name="fireElementCheckbox" id="fireCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="iceElement">Ice</label>
+                    <input type="checkbox" name="iceElementCheckbox" id="iceCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="lightningElement">Lightning</label>
+                    <input type="checkbox" name="lightningElementCheckbox" id="lightningCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="waterElement">Water</label>
+                    <input type="checkbox" name="waterElementCheckbox" id="waterCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="windElement">Wind</label>
+                    <input type="checkbox" name="windElementCheckbox" id="windCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="earthElement">Earth</label>
+                    <input type="checkbox" name="earthElementCheckbox" id="earthCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="lightElement">Light</label>
+                    <input type="checkbox" name="lightElementCheckbox" id="lightCheckbox">
+                </div>
+                <div class="baseline">
+                    <label for="darkElement">Dark</label>
+                    <input type="checkbox" name="darkElementCheckbox" id="darkCheckbox">
+                </div>
+            </div>  
+            <div class="vertical">
+                <p>Target Resistances</p>
+                <div class="baseline">
+                    <div class="baseline">
+                        <label for="fireResistance">Fire</label>
+                        <input id="fireResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="iceResistance">Ice</label>
+                        <input id="iceResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="lightningResistance">Lightning</label>
+                        <input id="lightningResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="waterResistance">Water</label>
+                        <input id="waterResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="windResistance">Wind</label>
+                        <input id="windResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="earthResistance">Earth</label>
+                        <input id="earthResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="lightResistance">Light</label>
+                        <input id="lightResistance" value="0"/>
+                    </div>
+                    <div class="baseline">
+                        <label for="darkResistance">Dark</label>
+                        <input id="darkResistance" value="0"/>
+                    </div>
+                </div>
             </div>
             <div id="submit">
                 <button id="submit_button" onClick="collectData()">Submit</button>
