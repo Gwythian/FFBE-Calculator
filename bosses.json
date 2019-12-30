@@ -1,9 +1,11 @@
 {
-    "$bossprofiler": "Scorn of the Fallen Ice Bird",
-    "boss": {
-        "properties":[
+    "$bossprofiler": "Boss List",
+    "bosses": 
+    [
+        {
+            "properties":
             {
-                "id":"scornOfTheFallenIceBird",
+                "id":"ScornOfTheFallenIceBird",
                 "name": "Scorn of the Fallen Ice Bird",
                 "race": {
                     "raceOne": "avian",
@@ -39,9 +41,8 @@
                 "MAGBreak": false,
                 "DEFBreak": true,
                 "SPRBreak": true
-            }
-        ],
-        "abilities": [
+            },
+            "abilities": [
             {
                 "abilitName":"Wings of the Ice Bird",
                 "damageType": "physical",
@@ -56,11 +57,11 @@
                 "damageType": "physicalFixed",
                 "target": "AoE",
                 "multiplier": "2.3",
-                "elements": {
+                "elements":[{
                     "elementOne": "ice",
                     "elementTwo": "water",
                     "elementThree": "wind"
-                },
+                }],
                 "iceReduction": "50%",
                 "waterReduction": "50%",
                 "windReduction": "50%",
@@ -131,10 +132,10 @@
                 "damageType": "magic",
                 "target": "AoE",
                 "multiplier": "4.5",
-                "elements": {
+                "elements": [{
                     "elementOne": "wind",
                     "elementTwo": "ice"
-                },
+                }],
                 "stop": "30%",
                 "iceReduction": "50%",
                 "windReduction": "50%",
@@ -145,10 +146,10 @@
                 "damageType": "fixed-magic",
                 "target": "AoE",
                 "multiplier": "5.5",
-                "elements": {
+                "elements": [{
                     "elementOne": "wind",
                     "elementTwo": "ice"
-                },
+                }],
                 "stop": "80%",
                 "iceReduction": "100%",
                 "windReduction": "100%",
@@ -160,6 +161,46 @@
                 "target": "AoE",
                 "multiplier": "0.9"
             }
-        ]
-    }
+        ]},
+        {
+            "properties":{
+                "id":"ScornOfTheMachinaOfDestruction",
+                "name": "Scorn of the Machina of Destruction",
+                "race": {
+                    "raceOne": "Machina"
+                },
+                "level": "99",
+                "hp": "145,555,555",
+                "mp": "100,0000",
+                "atk": "1,600",
+                "def": "850 + 595",
+                "mag": "1,500",
+                "spr": "865 + 606",
+                "fireResistance": "0",
+                "iceResistance": "absorb",
+                "lightningResistance": "-30%",
+                "waterResistance": "absorb",
+                "windResistance": "absorb",
+                "earthResistance": "0",
+                "lightResistance": "0",
+                "darkResistance": "0",
+                "poison": false,
+                "blind": false,
+                "sleep": false,
+                "silence": false,
+                "paralyze": false,
+                "confuse": false,
+                "disease": false,
+                "petrify": false,
+                "death": false,
+                "charm": false,
+                "nonelementalDamage": false,
+                "ATKBreak": false,
+                "MAGBreak": false,
+                "DEFBreak": true,
+                "SPRBreak": true
+            }
+        }
+    ]
 }
+
